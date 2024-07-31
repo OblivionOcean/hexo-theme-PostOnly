@@ -1,0 +1,71 @@
+<article class="cm9 c9 p9 m12">
+    <% if ((page.layout === 'tag') || (page.layout === 'tags')) { %>
+        <div class="card main">
+            <h2 class="title"><%- page.title %></h2>
+            <div class="content" id="post">
+                <%- list_tags() %>
+            </div>
+            <style>
+                .card.main > h2.title {
+                    display: flex;
+                    justify-content: center;
+                }
+
+                .tag-list {
+                    display: flex;
+                    flex-wrap: wrap;
+                }
+
+                .tag-list-item {
+                    display: flex;
+                    flex-wrap: wrap;
+                    margin: 3px;
+                }
+
+
+                .tag-list-link {
+                    color: #fff;
+                    background: #3b82f6c7;
+                    border-radius: 3px 0 0 3px;
+                    padding: 1px 5px;
+                }
+
+                .tag-list-count {
+                    padding: 0 4px;
+                    border: 1px solid #3b82f6c7 !important;
+                    border-radius: 0 3px 3px 0;
+                }
+            </style>
+        </div>
+    <% } else { %>
+        <div class="posts-ls" style="width: 100%;">
+            <% page.posts.each(function (post) { %>
+                    <li class="card">
+                        <% if (post.headimg){ %>
+                            <img class="headimg" src="<%= post.headimg || '' %>">
+                        <% } %>
+                        <div class="post">
+                            <h1 class="post-title">
+                                <a class="post-title-link" href="<%- url_for(post.path) %>"><%= post.title %></a>
+                            </h1>
+                            <div class="post-content" style="font-size: 15px;line-height: 1.6;">
+                                <%- post.excerpt || post.description || truncate(strip_html(post.content), {length: 200}) || post.content || '' %>
+                            </div>
+                            <div class="post-meta">
+                                <span class="post-time"><%- date(post.date, "YYYY-MM-DD") %></span>
+                                <% if (post.categories && post.categories.length > 0) { %>
+                                    <span class="dot"> · </span>
+                                    <% for(cat of post.categories.toArray()){ %>
+                                        <span>
+                            <a href="<%- url_for(cat.path) %>" itemprop="url"><span
+                                        itemprop="name"><%- cat.name %></span></a>
+                        </span>
+                                    <% } %>
+                                <% } %>
+                            </div>
+                        </div>
+                    </li>
+            <% }) %>
+        </div>
+    <% } %>
+</article>

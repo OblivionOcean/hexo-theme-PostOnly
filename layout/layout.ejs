@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="<%= typeof config.language=='string' ? config.language:config.language.join(',') %>">
+
+<head>
+    <script nsrc="https://www.yt-blog.top/js/fastjump.js"></script>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <title>
+        <%= ((page.title) ? page.title + ' - ' : '' ) + config.title %>
+    </title>
+    <link rel="shortcut icon" href="<%= config.favicon || theme.favicon || '' %>">
+    <link rel="stylesheet" href="<%=theme.cdn.domain || ""%>/css/style.css">
+    <script src="<%=theme.cdn.domain%>/js/app.js"></script>
+    <script>
+        PostOnly.load.js('<%=theme.cdn.npm_cdn%>/pandown@1.1.0', function () {
+            pandown();
+        });
+    </script>
+</head>
+
+<body>
+
+    <%- partial('_plugins/other/main') %>
+        <header class="header" id="header">
+            <div class="blog-logo">
+                <a href="<%- url_for() %>" class="logo">
+                    <%= config.title %>
+                </a>
+            </div>
+            <nav class="navbar">
+                <ul class="menu">
+                    <% for (name in theme.menu) { %>
+                        <li class="menu-item">
+                            <a href="<%- url_for(theme.menu[name]) %>" class="menu-item-link">
+                                <%= name %>
+                            </a>
+                        </li>
+                        <% } %>
+                            <li class="menu-item">
+                                <a href="javascript:PostOnly.dark.change()" class="menu-item-link"><i
+                                        class="fa-regular fa-moon"></i></a>
+                            </li>
+                </ul>
+            </nav>
+        </header>
+        <div class="msg" id="msg">
+        </div>
+        <main
+            class="main w-full grid page-main">
+            <%- body %>
+        </main>
+</body>
+
+</html>

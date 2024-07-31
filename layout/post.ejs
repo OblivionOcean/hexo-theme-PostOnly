@@ -1,0 +1,39 @@
+<article>
+    <% if (page.headimg) { %>
+        <img class="headimg" src="<%= page.headimg %>">
+        <% } %>
+            <h1 class="title">
+                <%= page.title %>
+                <p class="info">
+                    <span><%= full_date(page.data) %>发布</span>
+                    <span><%= strip_html(page.content).length %>字</span>
+                    <span><%= (strip_html(page.content).length/275).toFixed(1) %>分钟阅读</span>
+                </p>
+            </h1>
+            <div class="content"><%- page.content %></div>
+            <div class="share"><span class="copyright">
+                    <%= page.copyright|| "署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议" %>
+                </span></div>
+            <a class="permalink" href="<%= page.permalink|| '' %>">
+                <%= page.permalink||"无永久链接" %>
+            </a>
+            <div class="otherPost">
+                <% if (page.prev) { %>
+                    <a class="prev" href="<%= url_for(page.prev.path) %>">
+                        &lt; <%= page.prev.title %>
+                    </a>
+                    <% } else { %>
+                                            <span class="prev"></span>
+                        <% } %>
+                        <% if (page.next) { %>
+                            <a class="next" href="<%= url_for(page.next.path) %>">
+                                <%= page.next.title %> &gt;
+                            </a>
+                            <% } else { %>
+                                            <span class="next"></span>
+                        <% } %>
+            </div>
+</article>
+<div class="comments">
+    <%- partial("_plugins/comments/main") %>
+</div>

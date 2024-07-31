@@ -1,0 +1,23 @@
+menu:
+  首页: /
+cdn:
+  npm_cdn: https://npm.elemecdn.com
+  github_cdn: https://cdn2.chuqis.com/gh
+  cdnjs: https://cdn2.chuqis.com/cdnjs
+  domain: 
+post_list:
+  pin_icon: https://cdn2.chuqis.com/gh/twitter/twemoji@13.0/assets/svg/1f4cc.svg
+plugins:
+  lazyload:
+    enable: true
+  highlight:
+    enable: true
+    js: /js/highlight.min.js
+    css: https://jsd.onmicrosoft.cn/gh/dracula/highlightjs@master/dracula.css
+  cache:
+    enable: false
+    name: 'StaticCache'
+comments:
+  waline:
+    server: https://waline.chuqis.com
+    path: /waline

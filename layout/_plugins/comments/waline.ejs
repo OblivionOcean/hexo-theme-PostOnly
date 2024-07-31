@@ -1,0 +1,16 @@
+<div id="waline">
+<div style="
+    display: flex;
+    justify-content: center;
+"><span class="loading_i" style="border-color:#3b82f6;margin:50px 0"></span></div>
+</div>
+<script>
+    PostOnly.load.css('<%= theme.cdn.npm_cdn %>/@waline/client@2.14.7/dist/waline.css');
+    PostOnly.load.js('<%= theme.cdn.npm_cdn %>/@waline/client@2.14.7/dist/waline.js', function () {
+        Waline.init({
+            el: '#waline',
+            path: "<%= theme.comments.waline.path||'/' %>"+window.location.pathname,
+            serverURL: '<%= theme.comments.waline.path||"/" %>'
+        });
+    });
+</script>

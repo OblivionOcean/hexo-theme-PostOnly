@@ -1,0 +1,18 @@
+<article>
+    <% if (page.headimg) { %>
+        <img class="headimg" src="<%= page.headimg %>">
+        <% } %>
+            <h1 class="title">
+                <%= page.title %>
+            </h1>
+            <div class="content"><%- page.content %></div>
+            <div class="share"><span class="copyright">
+                    <%= page.copyright|| "署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议" %>
+                </span></div>
+            <a class="permalink" href="<%= page.permalink|| '' %>">
+                <%= page.permalink||"无永久链接" %>
+            </a>
+</article>
+<div class="comments">
+    <%- partial("_plugins/comments/main") %>
+</div>

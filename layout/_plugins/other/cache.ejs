@@ -1,0 +1,92 @@
+PostOnly.cache = {
+        name: '<%= theme.plugins.cache.name %>', // 默认的存储名称
+        dataUrl2Blob:(dataURI)=> {
+            var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0]; // mime类型
+            var byteString = atob(dataURI.split(',')[1]); //base64 解码
+            var arrayBuffer = new ArrayBuffer(byteString.length); //创建缓冲数组
+            var intArray = new Uint8Array(arrayBuffer); //创建视图
+    
+            for (var i = 0; i < byteString.length; i++) {
+                intArray[i] = byteString.charCodeAt(i);
+            }
+            return new Blob([intArray], {type: mimeString});
+    },
+        blob2DataUrl:(blob, callback) => {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                callback(e.target.result);
+            }
+            reader.readAsDataURL(blob);
+        },
+        read: (key) => {
+            return new Promise((resolve, reject) => {
+                caches.match(new Request(`https://LOCALCACHE/${encodeURIComponent(key)}`)).then(function (res) {
+                    res.text().then(text => resolve(text));
+                }).catch(() => {
+                    resolve(null);
+                });
+            })
+        }, write: (key, value) => {
+            return new Promise((resolve, reject) => {
+                caches.open(PostOnly.cache.name).then(function (cache) {
+                    cache.delete(new Request(`https://LOCALCACHE/${encodeURIComponent(key)}`)).then(function(){
+                        cache.put(new Request(`https://LOCALCACHE/${encodeURIComponent(key)}`), new Response(value));
+                    }).catch();
+                    resolve();
+                }).catch(() => {
+                    reject();
+                });
+            });
+        }, getFile: (url, ...args) => {
+            return new Promise((resolve, reject) => {
+                PostOnly.cache.read(url).then(function(d){
+                    if (d) {
+                        fetch(url).then(function(res){
+                            res.blob().then(function(fileBlob){
+                                PostOnly.cache.blob2DataUrl(fileBlob, function(data_url){
+                                    PostOnly.cache.write(url, data_url)
+                                });
+                            }).catch(function(){});
+                        }).catch(function(){});
+                        if (d==='can\'t cache'){
+                            resolve({
+                                url: url,
+                                args:[...args]
+                            });
+                        } else {
+                        resolve({
+                            url:URL.createObjectURL(PostOnly.cache.dataUrl2Blob(d)),
+                            args:[...args]
+                        });
+                    }
+                    } else {
+                        fetch(url).then(function(res){
+                            res.blob().then(function(fileBlob){
+                                PostOnly.cache.blob2DataUrl(fileBlob, function(data_url){
+                                    PostOnly.cache.write(url, data_url)
+                                });
+                                resolve({
+                                    url:URL.createObjectURL(PostOnly.cache.dataUrl2Blob(d)),
+                                    args:[...args]
+                                });
+                            }).catch(function(e){
+                                PostOnly.cache.write(url, 'can\'t cache')
+                                resolve({
+                                    url:url,
+                                    err: e,
+                                    args:[...args]
+                                })
+                            })
+                        }).catch(function(e){
+                            PostOnly.cache.write(url, 'can\'t cache')
+                            resolve({
+                                url:url,
+                                err: e,
+                                args:[...args]
+                            })
+                        })
+                    }
+                });
+            })
+        }
+    }

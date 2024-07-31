@@ -1,0 +1,21 @@
+plugins:
+  Qexo:
+    friends:
+      msg_title: Qexo Friend Link
+      title: Apply for friend links
+      tip: Please fill in the friend link correctly, and then click on the application to wait for verification. Please add the friend link on this website first
+      input_placeholder:
+        name: Name
+        image: Avatar
+        introduction: Description
+        url: Website URL
+      btn_text: Apply
+      error:
+        load_error: Friend link loading failed!
+        get_error: Failed to obtain friend link!
+        unfull_error: Please fill in the content
+        url_error: Please check if the website address is correct
+        unknown_error: "Friend link application failure prompt:"
+        network_error: Network Error
+      success:
+        apply: Successfully submitted, please wait for confirmation from the blogger! We will no longer remind you of the results, thank you!

@@ -1,0 +1,67 @@
+<% if ((page.layout==='categories' ) || (page.layout==='categorie' ) || (page.layout==='category' ) ||
+    (page.layout==='categorys' )) { %>
+    <div class="posts-ls">
+        <% var books=site.data.books||{};site.categories.each(function(category){ %>
+            <div class="post category">
+                <div class="headimgBack">
+                    <% if(books[category.name]&&books[category.name].headimg) { %>
+                        <img class="headimg" alt="<%= category.name %>" src="<%= books[category.name].headimg %>">
+                        <% } else { %>
+                            无封面
+                            <% } %>
+                </div>
+                <div class="right">
+                    <h2 class="post-title">
+                        <a class="post-title-link" href="<%- url_for(category.path) %>">
+                            <%= (books[category.name]&&books[category.name].name)?books[category.name].name:category.name
+                                %>
+                        </a>
+                        <% if (books[category.name]) { %>
+                            <span class="status">
+                                <%= books[category.name].status %>
+                            </span>
+                            <% } %>
+                    </h2>
+                    <div class="post-content">
+                        <%- truncate((books[category.name])?books[category.name].content:"没有介绍呐~", {length: 200}) %>
+                    </div>
+                </div>
+            </div>
+            <% }) %>
+    </div>
+    <% } else { %>
+        <% var books=site.data.books||{}; %>
+            <div class="posts-ls top">
+                <div class="post category">
+                    <div class="headimgBack">
+                        <% if(books[page.category]&&books[page.category].headimg) { %>
+                            <img class="headimg" alt="<%= page.category %>" src="<%= books[page.category].headimg %>">
+                            <% } else { %>
+                                无封面
+                                <% } %>
+                    </div>
+                    <div class="right">
+                        <h2 class="post-title">
+                            <a class="post-title-link" href="<%- url_for(path.path) %>">
+                                <%= (books[page.category]&&books[page.category].name)?books[page.category].name:page.category %>
+                            </a>
+                            <% if (books[page.category]) { %>
+                                <span class="status">
+                                    <%= books[page.category].status %>
+                                </span>
+                                <% } %>
+                        </h2>
+                        <div class="post-content">
+                            <%- truncate((books[page.category])?books[page.category].content:"没有介绍呐~", {length: 200}) %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="posts-ls bottom">
+                <% page.posts.each(function (post, i) { %>
+                    <a class="post-card" href="<%- url_for(post.path) %>" num="<%= i+1 %>">
+                        <%= post.title %>
+                    </a>
+                    <% }) %>
+            </div>
+            <% } %>

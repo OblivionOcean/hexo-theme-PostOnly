@@ -1,0 +1,22 @@
+plugins:
+  Qexo:
+    friends:
+      msg_title: Qexo友链
+      title: 友链申请
+      tip: 请正确填写友链，然后点击申请等待核实，请先添加本站友链
+      input_placeholder:
+        name: 名称
+        image: 头像
+        introduction: 描述
+        url: 网址
+      btn_text: 申请
+      error:
+        load_error: 友链载入失败!
+        get_error: 友链获取失败!
+        unfull_error: 请填写内容
+        url_error: 请检查网址是否正确
+        unknown_error: "友链申请失败 提示："
+        network_error: 网络异常
+      success:
+        apply: 提交成功，请等待博主确认！我们不再提醒你结果，谢谢！
+

@@ -1,0 +1,13 @@
+// 懒加载插件
+PostOnly.onload.add(function (){
+    let dls=document.getElementsByTagName('img');
+    for (i in dls) {
+        if (!dls[i].setAttribute){
+            continue;
+        }
+        dls[i].setAttribute('lazyload',dls[i].src);
+        dls[i].src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAACxMAAAsTAQCanBgAAAANSURBVBhXY2BgYGAAAAAFAAGKM+MAAAAAAElFTkSuQmCC"
+    }
+    PostOnly.plugins.lazyload()
+    document.addEventListener('scroll', PostOnly.plugins.lazyload)
+});
