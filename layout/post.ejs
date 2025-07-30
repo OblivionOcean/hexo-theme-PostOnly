@@ -5,7 +5,7 @@
             <h1 class="title">
                 <%= page.title %>
                 <p class="info">
-                    <span><%= full_date(page.data) %>发布</span>
+                    <span><%= full_date(page.date) %>发布</span>
                     <span><%= strip_html(page.content).length %>字</span>
                     <span><%= (strip_html(page.content).length/275).toFixed(1) %>分钟阅读</span>
                 </p>

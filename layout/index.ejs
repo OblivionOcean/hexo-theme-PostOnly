@@ -21,7 +21,7 @@
                                          <% } %>
                 </div>
                                                 <div class="post-meta">
-                                    创作于 <%=date(post.data)%><%if (post.categories.length>0){%> | <% for(var category of post.categories.toArray()) { %>
+                                    创作于 <%=date(post.date)%><%if (post.categories.length>0){%> | <% for(var category of post.categories.toArray()) { %>
                                         <a class="category" href="<%= url_for(category.path) %>"><%= (books[category.name])?`《${category.name}》` : category.name %></a> 
                                     <% } %> 
                                     <% } %> 
@@ -45,7 +45,7 @@
                                          <% } %>
                                 </div>
                                 <div class="post-meta">
-                                    创作于 <%=date(post.data)%><%if (post.categories.length>0){%> | <% for(var category of post.categories.toArray()) { %>
+                                    创作于 <%=date(post.date)%><%if (post.categories.length>0){%> | <% for(var category of post.categories.toArray()) { %>
                                         <a class="category" href="<%= url_for(category.path) %>"><%= (books[category.name])?`《${category.name}》` : category.name %></a> 
                                     <% } %> 
                                     <% } %> 
