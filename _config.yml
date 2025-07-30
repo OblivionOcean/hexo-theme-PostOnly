@@ -14,10 +14,8 @@ plugins:
     enable: true
     js: /js/highlight.min.js
     css: https://jsd.onmicrosoft.cn/gh/dracula/highlightjs@master/dracula.css
-  cache:
-    enable: false
-    name: 'StaticCache'
 comments:
   waline:
-    server: https://waline.chuqis.com
+    enable: false
+    server: 
     path: /waline

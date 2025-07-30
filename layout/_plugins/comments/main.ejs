@@ -1,1 +1,3 @@
-<%- partial('_plugins/comments/waline') %>
+<% if (theme.comments.waline.enable) { %>
+    <%- partial('_plugins/comments/waline') %>
+<% } %>
