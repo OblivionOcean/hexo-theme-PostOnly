@@ -1,17 +1,1 @@
-// hljs代码高亮
-PostOnly.load.css('<%= theme.plugins.highlight.css %>');
-PostOnly.load.js('<%= theme.plugins.highlight.js %>', function(){
-    if (!document.getElementsByTagName('article')[0]){return 0}
-    let dom = document.getElementsByTagName('article')[0].getElementsByTagName('code')
-    for (l in dom) {
-        if (dom[l].classList) {
-            dom[l].classList.forEach(function (value) {
-                if (value=='highlightjs'||value=='hljs'||value=='hl'||value=='highlight'){
-                    return;
-                }
-                dom[l].classList.add('language-' + value);
-            })
-        }
-    }
-    hljs.highlightAll();
-})
+PostOnly.load.css('<%= theme.plugins.highlight.css %>');PostOnly.load.js('<%= theme.plugins.highlight.js %>',function(){if(!document.getElementsByTagName('article')[0]){return 0}let dom=document.getElementsByTagName('article')[0].getElementsByTagName('code')for(l in dom){if(dom[l].classList){dom[l].classList.forEach(function(value){if(value=='highlightjs'||value=='hljs'||value=='hl'||value=='highlight'){return}dom[l].classList.add('language-'+value)})}}hljs.highlightAll()})

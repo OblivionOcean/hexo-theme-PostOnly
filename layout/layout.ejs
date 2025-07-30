@@ -12,11 +12,7 @@
     <link rel="shortcut icon" href="<%= config.favicon || theme.favicon || '' %>">
     <link rel="stylesheet" href="<%=theme.cdn.domain || ""%>/css/style.css">
     <script src="<%=theme.cdn.domain%>/js/app.js"></script>
-    <script>
-        PostOnly.load.js('<%=theme.cdn.npm_cdn%>/pandown@1.1.0', function () {
-            pandown();
-        });
-    </script>
+    <script>PostOnly.load.js('<%=theme.cdn.npm_cdn%>/pandown@1.1.0', function () {pandown();});</script>
 </head>
 
 <body>
