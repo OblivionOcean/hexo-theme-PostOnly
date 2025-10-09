@@ -32,7 +32,7 @@ FastJump.db = {
      * @returns {Promise<string|null>} 返回解析后的缓存数据或null
      * 
      * @example
-     * FastJump.db.read('https://example.com/page').then(data => {
+     * FastJump.db.read('https://example.com/page').then(function(data) {
      *   if (data) {
      *     // 使用缓存的数据
      *   }
@@ -40,17 +40,17 @@ FastJump.db = {
      * 
      * @since 1.0.0
      */
-    read: (key) => {
-        return new Promise((resolve, reject) => {
+    read: function(key) {
+        return new Promise(function(resolve, reject) {
             // 使用Cache API匹配缓存请求
-            caches.match(new Request(`https://LOCALCACHE/${encodeURIComponent(key)}`)).then(function (res) {
+            caches.match(new Request('https://LOCALCACHE/' + encodeURIComponent(key))).then(function (res) {
                 // 将响应转换为文本
-                res.text().then(text => resolve(text));
-            }).catch(() => {
+                res.text().then(function(text) { resolve(text); });
+            }).catch(function() {
                 // 发生错误时返回null
                 resolve(null);
             });
-        })
+        });
     },
     
     /**
@@ -62,20 +62,20 @@ FastJump.db = {
      * 
      * @since 1.0.0
      */
-    write: (key, value) => {
-        return new Promise((resolve, reject) => {
+    write: function(key, value) {
+        return new Promise(function(resolve, reject) {
             // 打开指定名称的缓存
             caches.open(FastJump.CACHE_NAME).then(function (cache) {
                 // 将请求和响应存入缓存
-                cache.put(new Request(`https://LOCALCACHE/${encodeURIComponent(key)}`), new Response(value));
+                cache.put(new Request('https://LOCALCACHE/' + encodeURIComponent(key)), new Response(value));
                 resolve();
-            }).catch(() => {
+            }).catch(function() {
                 // 发生错误时拒绝Promise
                 reject();
             });
         });
     }
-}
+};
 
 /**
  * DOM内容加载完成后执行
@@ -94,10 +94,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (d.headers.get('content-type') === 'text/html') {
                     d.text().then(function (b) {
                         // 将获取到的页面内容存入缓存
-                        FastJump.db.write(window.location.href, b)
-                    })
+                        FastJump.db.write(window.location.href, b);
+                    });
                 }
-            })
+            });
         }
     });
 });
@@ -113,7 +113,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // 每500毫秒检查一次页面中的链接
     setInterval(function () {
         FastJump._processLinks();
-    }, 500)
+    }, 500);
 });
 
 /**
@@ -129,7 +129,7 @@ FastJump._processLinks = function() {
             // 重写链接点击事件
             dom.onclick = function () {
                 return FastJump._handleLinkClick(dom);
-            }
+            };
         }
     });
 };
@@ -152,8 +152,8 @@ FastJump._handleLinkClick = function(dom) {
         }
     }).catch(function (e) {
         // 发生错误时跳转到目标页面
-        window.location.href = dom.href
-    })
+        window.location.href = dom.href;
+    });
     // 阻止默认的链接跳转行为
     return false;
 };
@@ -183,19 +183,19 @@ FastJump._handleCachedPage = function(dom, data) {
  * @private
  */
 FastJump._waitForPageLoad = function() {
-    let Event_timerun = window.setInterval(function () {
+    var Event_timerun = window.setInterval(function () {
         if (document.body && document.body.innerHTML) {
             // 触发自定义事件
-            let Event = new CustomEvent('onload')
+            var Event = new CustomEvent('onload');
             document.dispatchEvent(Event);
             window.dispatchEvent(Event);
-            Event = new CustomEvent('DOMContentLoaded')
+            Event = new CustomEvent('DOMContentLoaded');
             document.dispatchEvent(Event);
             window.dispatchEvent(Event);
             // 清除定时器
-            window.clearInterval(Event_timerun)
+            window.clearInterval(Event_timerun);
         }
-    }, 500)
+    }, 500);
 };
 
 /**
@@ -207,10 +207,10 @@ FastJump._updatePageCache = function(url) {
     fetch(url).then(function (d) {
         if (d.headers.get('content-type') === 'text/html') {
             d.text().then(function (b) {
-                FastJump.db.write(window.location.href, b)
-            })
+                FastJump.db.write(window.location.href, b);
+            });
         }
-    })
+    });
 };
 
 /**
@@ -226,13 +226,13 @@ FastJump._fetchPageFromNetwork = function(dom) {
                 FastJump._handleNetworkPage(dom, b);
             }).catch(function (e) {
                 // 发生错误时跳转到目标页面
-                window.location.href = dom.href
-            })
+                window.location.href = dom.href;
+            });
         }
     }).catch(function (e) {
         // 发生错误时跳转到目标页面
-        window.location.href = dom.href
-    })
+        window.location.href = dom.href;
+    });
 };
 
 /**
@@ -243,15 +243,16 @@ FastJump._fetchPageFromNetwork = function(dom) {
  */
 FastJump._handleNetworkPage = function(dom, content) {
     console.clear();
-    // 使用document.write更新页面内容
-    document.open();
+    // 使用innerHTML更新页面内容而不是document.write
     try {
-        document.write(content)
+        document.open();
+        document.write(content);
+        document.close();
         // 等待页面内容加载完成并触发相关事件
         FastJump._waitForPageLoad();
     } catch (e) {
         // 发生错误时不做处理
     }
     // 将获取到的页面内容存入缓存
-    self.db.write(dom.href, content)
+    FastJump.db.write(dom.href, content);
 };

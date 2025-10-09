@@ -25,10 +25,10 @@
 hexo.extend.filter.register('after_render:html', function(data) {
     // 如果主题配置中包含替换规则，则执行替换
     if (hexo.theme.config.replace) {
-        hexo.theme.config.replace.forEach(e => {
-            let s = e.split(" => ")
-            let a = s[0]
-            let b = s[1]
+        hexo.theme.config.replace.forEach(function(e) {
+            var s = e.split(" => ");
+            var a = s[0];
+            var b = s[1];
             // 全局替换指定的字符串
             data = data.replace(new RegExp(a,"g"), b);
         });
